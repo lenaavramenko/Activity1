@@ -114,6 +114,17 @@ public class AccountDAOImpl implements AccountDAO {
     // 7 - Complete implementation for withdraw. It should ensure that the
     // account balance is reduced by the amount deposited.
     public boolean withdraw(String id, float amount) throws AccountDAOException {
+        try {
+            PreparedStatement pStmt = conn.prepareStatement("update account set balance=balance-? where id=?");
+            pStmt.setFloat(1, amount);
+            pStmt.setString(2, id);
+
+            return pStmt.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
         return false;
     }
