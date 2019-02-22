@@ -26,7 +26,7 @@ public class AccountDAOClient{
             obj.deposit("2",3000);
 
             //Test6 - Type code to test deleteAccount("6")
-            obj.deleteAccount("6");
+            obj.deleteAccount("4");
 
 
         }catch (Exception e){

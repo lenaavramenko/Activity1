@@ -26,7 +26,7 @@ public class AccountDAOImpl implements AccountDAO {
             Connection cn = DriverManager.getConnection(url, user, pass);
             cn.setAutoCommit(false);
             this.conn = cn;
-            conn.setAutoCommit(false);
+            conn.setAutoCommit(true);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class AccountDAOImpl implements AccountDAO {
     public boolean insertAccount(String id, String firstName, String lastName,
                                  String email, float balance) throws AccountDAOException {
         try {
-            PreparedStatement pStmt = conn.prepareStatement("insert  into account (`id`,`first_name`, `last_name`,`e_mail`, `balance`) values(?, ?, ?, ?, ?)");
+            PreparedStatement pStmt = conn.prepareStatement("insert into account (`id`,`first_name`, `last_name`,`e_mail`, `balance`) values(?, ?, ?, ?, ?)");
             pStmt.setString(1, id);
             pStmt.setString(2,firstName);
             pStmt.setString(3,lastName);
@@ -99,11 +99,12 @@ public class AccountDAOImpl implements AccountDAO {
     // account balance is increased by the amount deposited.
     public boolean deposit(String id, float amount) throws AccountDAOException {
         try {
-            PreparedStatement pStmt = conn.prepareStatement("update account set amount=4900 where id=?");
-            pStmt.setString(1,"3");
-            int rows = pStmt.executeUpdate();
-            conn.commit();
+            PreparedStatement pStmt = conn.prepareStatement("update account set balance=balance+? where id=?");
+            pStmt.setFloat(1, amount);
+            pStmt.setString(2, id);
+
             return pStmt.execute();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,11 +114,22 @@ public class AccountDAOImpl implements AccountDAO {
     // 7 - Complete implementation for withdraw. It should ensure that the
     // account balance is reduced by the amount deposited.
     public boolean withdraw(String id, float amount) throws AccountDAOException {
+
         return false;
     }
 
     // 8 - Complete implementation for deleteAccount
     public boolean deleteAccount(String id) throws AccountDAOException {
+        try {
+            PreparedStatement pStmt = conn.prepareStatement("delete from account where id=?");
+            pStmt.setString(1,id);
+            return pStmt.execute();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
