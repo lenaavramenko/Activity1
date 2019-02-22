@@ -16,19 +16,18 @@ public class AccountDAOImpl implements AccountDAO {
     public AccountDAOImpl() {
         String url = "jdbc:mysql://localhost/activity";
         String user = "root";
-        String pass = "abcd1234";
+        String pass = "123456";
 
         try {
             //1 - Load the driver
-
+            //Class.forName("com.mysql.jdbc.Driver");
 
             //2 - Obtain a connection using DriverManager class
-            Connection cn = ;
+            Connection cn = DriverManager.getConnection(url, user, pass);
+            cn.setAutoCommit(false);
+
             this.conn = cn;
             conn.setAutoCommit(false);
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

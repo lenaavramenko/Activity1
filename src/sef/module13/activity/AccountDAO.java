@@ -26,4 +26,6 @@ public interface AccountDAO {
     public boolean withdraw(String id, float amount ) throws AccountDAOException;
 
     public boolean deleteAccount(String id) throws AccountDAOException;
+
+
 }

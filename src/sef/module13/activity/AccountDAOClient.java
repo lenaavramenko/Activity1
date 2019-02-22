@@ -1,7 +1,7 @@
 package sef.module13.activity;
 //Needs to be completed
 
-public class AccountDAOClient {
+public class AccountDAOClient{
 
     public static void main(String[] args) {
         AccountDAO obj = new AccountDAOImpl();
@@ -9,6 +9,8 @@ public class AccountDAOClient {
         try {
 
             //Test1 - Type code to test findAccount("1")
+
+            AccountDAOImpl objAccount = obj.findAccount("1");
 
 
             //Test2 - Type code to test findAccount("J","D"). How many records do you get?
