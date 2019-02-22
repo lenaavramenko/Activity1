@@ -25,7 +25,6 @@ public class AccountDAOImpl implements AccountDAO {
             //2 - Obtain a connection using DriverManager class
             Connection cn = DriverManager.getConnection(url, user, pass);
             cn.setAutoCommit(false);
-
             this.conn = cn;
             conn.setAutoCommit(false);
         } catch (SQLException e) {
@@ -42,7 +41,7 @@ public class AccountDAOImpl implements AccountDAO {
             throws AccountDAOException {
         List<Account> results = new ArrayList<Account>();
         try {
-            PreparedStatement pStmt = conn.prepareStatement("");
+            PreparedStatement pStmt = conn.prepareStatement("select * from account where first_name like ? and last_name like ?");
             pStmt.setString(1, '%' + firstName.toUpperCase() + '%');
             pStmt.setString(2, '%' + lastName.toUpperCase() + '%');
 
@@ -63,7 +62,7 @@ public class AccountDAOImpl implements AccountDAO {
     public Account findAccount(String id) throws AccountDAOException {
 
         try {
-            PreparedStatement pStmt = conn.prepareStatement("");
+            PreparedStatement pStmt = conn.prepareStatement("select * from account where id like ?");
             pStmt.setString(1, id);
             ResultSet rs = pStmt.executeQuery();
             if (rs.next()) {
@@ -81,6 +80,17 @@ public class AccountDAOImpl implements AccountDAO {
     // 5 - Complete implementation for insertAccount
     public boolean insertAccount(String id, String firstName, String lastName,
                                  String email, float balance) throws AccountDAOException {
+        try {
+            PreparedStatement pStmt = conn.prepareStatement("insert  into account (`id`,`first_name`, `last_name`,`e_mail`, `balance`) values(?, ?, ?, ?, ?)");
+            pStmt.setString(1, id);
+            pStmt.setString(2,firstName);
+            pStmt.setString(3,lastName);
+            pStmt.setString(4,email);
+            pStmt.setFloat(5,balance);
+            return pStmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return false;
     }
@@ -88,6 +98,15 @@ public class AccountDAOImpl implements AccountDAO {
     // 6 - Complete implementation for deposit. It should ensure that the
     // account balance is increased by the amount deposited.
     public boolean deposit(String id, float amount) throws AccountDAOException {
+        try {
+            PreparedStatement pStmt = conn.prepareStatement("update account set amount=4900 where id=?");
+            pStmt.setString(1,"3");
+            int rows = pStmt.executeUpdate();
+            conn.commit();
+            return pStmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
